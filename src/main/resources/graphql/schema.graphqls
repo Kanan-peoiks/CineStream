@@ -1,0 +1,50 @@
+type Query {
+    medias: [Media!]!
+    media(id: ID!): Media
+    topViewed(limit: Int = 10): [Media!]!
+    myWatchList: [WatchListItem!]!
+}
+
+type Mutation {
+    register(username: String!, password: String!): AuthPayload!
+    login(username: String!, password: String!): AuthPayload!
+    addMedia(title: String!, type: MediaType!, castMembers: [String!]): Media!
+    addReview(mediaId: ID!, rating: Int!, text: String): Review!
+    addToWatchList(mediaId: ID!): WatchListItem!
+}
+
+type AuthPayload {
+    token: String!
+    username: String!
+}
+
+enum MediaType {
+    MOVIE
+    SERIES
+    ANIME
+}
+
+type Media {
+    id: ID!
+    title: String!
+    type: MediaType!
+    averageRating: Float
+    castMembers: [String!]!
+    recentReviews(limit: Int = 10): [Review!]!
+}
+
+type Review {
+    id: ID!
+    rating: Int!
+    text: String
+    createdAt: String
+    authorUsername: String
+    mediaTitle: String
+}
+
+type WatchListItem {
+    id: ID!
+    status: String!
+    addedAt: String
+    media: Media!
+}
